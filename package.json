@@ -29,7 +29,6 @@
     "dist"
   ],
   "scripts": {
-    "postinstall": "nuxt-module-build",
     "postpack": "pinst --enable",
     "_postinstall": "husky install && playwright install",
     "build": "nuxt-module-build",
