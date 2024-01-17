@@ -29,8 +29,9 @@
     "dist"
   ],
   "scripts": {
+    "postinstall": "nuxt-module-build",
     "postpack": "pinst --enable",
-    "postinstall": "husky install && playwright install",
+    "_postinstall": "husky install && playwright install",
     "build": "nuxt-module-build",
     "lint": "eslint --ext .js,.cjs,.mjs,.ts,.cts,.mts,.vue . && remark . -q",
     "lint:fix": "eslint --ext .js,.cjs,.mjs,.ts,.cts,.mts,.vue --fix . && remark . -q",
