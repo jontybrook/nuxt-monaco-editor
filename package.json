@@ -5,7 +5,8 @@
     "monaco-editor",
     "nuxt"
   ],
-  "author": "jontybrook",
+  "author": "e-chan1007",
+  "homepage": "https://jontybrook.github.io/nuxt-monaco-editor",
   "repository": {
     "type": "git",
     "url": "https://github.com/jontybrook/nuxt-monaco-editor.git"
@@ -29,6 +30,7 @@
   ],
   "scripts": {
     "postpack": "pinst --enable",
+    "_postinstall": "husky install && playwright install",
     "build": "nuxt-module-build",
     "lint": "eslint --ext .js,.cjs,.mjs,.ts,.cts,.mts,.vue . && remark . -q",
     "lint:fix": "eslint --ext .js,.cjs,.mjs,.ts,.cts,.mts,.vue --fix . && remark . -q",
