@@ -2,9 +2,7 @@
   <div class="container">
     <h1>nuxt-monaco-editor</h1>
     <section>
-      <h2>
-        Code Editor
-      </h2>
+      <h2>Code Editor</h2>
       <select v-model="lang">
         <option value="plaintext">
           Plain Text
@@ -20,22 +18,35 @@
         </option>
       </select>
       <ClientOnly>
-        <MonacoEditor v-model="val" :lang="lang" :options="options" class="editor">
+        <MonacoEditor
+          v-model="val"
+          :lang="lang"
+          :options="options"
+          class="editor"
+        >
           Loading...
         </MonacoEditor>
       </ClientOnly>
     </section>
     <section>
-      <h2>
-        Diff Editor
-      </h2>
-      <MonacoDiffEditor v-model="modifiedVal" :original="originalVal" :options="options" class="editor">
+      <h2>Diff Editor</h2>
+      <MonacoDiffEditor
+        v-model="modifiedVal"
+        :original="originalVal"
+        :options="options"
+        class="editor"
+      >
         Loading...
       </MonacoDiffEditor>
     </section>
     <section>
       <h2>Model Values (readonly)</h2>
-      <MonacoEditor :model-value="JSON.stringify({ val, modifiedVal }, null, 2)" :options="{ ...options, readOnly: true }" lang="json" class="editor" />
+      <MonacoEditor
+        :model-value="JSON.stringify({ val, modifiedVal }, null, 2)"
+        :options="{ ...options, readOnly: true }"
+        lang="json"
+        class="editor"
+      />
     </section>
   </div>
 </template>
@@ -58,7 +69,8 @@ watchEffect(() => {
       val.value = 'Hello nuxt-monaco-editor!'
       break
     case 'html':
-      val.value = '<!DOCTYPE html>\n<html>\n  <body>\n    <h1>Hello nuxt-monaco-editor!</h1>\n  </body>\n</html>'
+      val.value =
+        '<!DOCTYPE html>\n<html>\n  <body>\n    <h1>Hello nuxt-monaco-editor!</h1>\n  </body>\n</html>'
       break
     case 'css':
       val.value = '.hello__nuxt-monaco-editor {\n  border: 1px solid black;\n}'

@@ -6,7 +6,15 @@
 
 <script lang="ts" setup>
 import type * as Monaco from 'monaco-editor'
-import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import {
+  computed,
+  onMounted,
+  onUnmounted,
+  ref,
+  shallowRef,
+  watch,
+  nextTick
+} from 'vue'
 import { defu } from 'defu'
 import { useMonaco } from './composables'
 
@@ -24,8 +32,8 @@ interface Props {
 }
 
 interface Emits {
-  (event: 'update:modelValue', value: string): void
-  (event: 'load', editor: Monaco.editor.IStandaloneCodeEditor): void
+  (event: 'update:modelValue', value: string): void;
+  (event: 'load', editor: Monaco.editor.IStandaloneCodeEditor): void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -49,19 +57,35 @@ const defaultOptions: Monaco.editor.IStandaloneEditorConstructionOptions = {
   automaticLayout: true
 }
 
-watch(() => props.modelValue, () => {
-  if (editor?.getValue() !== props.modelValue) { editor?.setValue(props.modelValue) }
-})
+watch(
+  () => props.modelValue,
+  () => {
+    if (!editor) {
+      return
+    }
+    if (editor?.getValue() !== props.modelValue) {
+      editor?.setValue(props.modelValue)
+    }
+  }
+)
 
-watch(() => props.lang, () => {
-  if (model) { model.dispose() }
-  model = monaco.editor.createModel(props.modelValue, lang.value)
-  editor?.setModel(model)
-})
+watch(
+  () => props.lang,
+  () => {
+    if (model) {
+      model.dispose()
+    }
+    model = monaco.editor.createModel(props.modelValue, lang.value)
+    editor?.setModel(model)
+  }
+)
 
-watch(() => props.options, () => {
-  editor?.updateOptions(defu(props.options, defaultOptions))
-})
+watch(
+  () => props.options,
+  () => {
+    editor?.updateOptions(defu(props.options, defaultOptions))
+  }
+)
 
 defineExpose({
   /**
@@ -71,15 +95,35 @@ defineExpose({
 })
 
 onMounted(() => {
-  editor = monaco.editor.create(editorElement.value!, defu(props.options, defaultOptions))
-  editorRef.value = editor
-  model = monaco.editor.createModel(props.modelValue, lang.value)
-  editor.setModel(model)
-  editor.onDidChangeModelContent(() => {
-    emit('update:modelValue', editor.getValue())
+  nextTick(() => {
+    if (!editorElement.value) {
+      return
+    }
+    editor = monaco.editor.create(
+      editorElement.value!,
+      defu(props.options, defaultOptions)
+    )
+    editorRef.value = editor
+    model = monaco.editor.createModel(props.modelValue, lang.value)
+    editor.setModel(model)
+    editor.onDidChangeModelContent(() => {
+      emit('update:modelValue', editor.getValue())
+    })
+    isLoading.value = false
+    emit('load', editor)
   })
-  isLoading.value = false
-  emit('load', editor)
+  // editor = monaco.editor.create(
+  //   editorElement.value!,
+  //   defu(props.options, defaultOptions)
+  // );
+  // editorRef.value = editor;
+  // model = monaco.editor.createModel(props.modelValue, lang.value);
+  // editor.setModel(model);
+  // editor.onDidChangeModelContent(() => {
+  //   emit("update:modelValue", editor.getValue());
+  // });
+  // isLoading.value = false;
+  // emit("load", editor);
 })
 
 onUnmounted(() => {
