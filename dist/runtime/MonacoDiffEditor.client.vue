@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import type * as Monaco from 'monaco-editor'
-import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { onMounted, onUnmounted, ref, shallowRef, watch, nextTick } from 'vue'
 import { defu } from 'defu'
 import { useMonaco } from './composables'
 
