@@ -5,11 +5,10 @@
     "monaco-editor",
     "nuxt"
   ],
-  "author": "e-chan1007",
-  "homepage": "https://e-chan1007.github.io/nuxt-monaco-editor",
+  "author": "jontybrook",
   "repository": {
     "type": "git",
-    "url": "https://github.com/e-chan1007/nuxt-monaco-editor.git"
+    "url": "https://github.com/jontybrook/nuxt-monaco-editor.git"
   },
   "version": "1.2.7",
   "type": "module",
